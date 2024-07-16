@@ -1,12 +1,14 @@
-import React from 'react'
-import { useSocketContext } from '../context/SocketContext'
-import { useAccountContext } from '../context/AccountContext';
+import React, { useEffect } from "react";
+import { useSocketContext } from "../context/SocketContext";
+import { useAccountContext } from "../context/AccountContext";
 
 const TicTacToe = () => {
   const { onlineUsers } = useSocketContext();
   const { account } = useAccountContext();
+  useEffect(() => {
+    console.log(onlineUsers);
+  }, [onlineUsers]);
 
-  console.log(onlineUsers)
   return (
     <>
       {account === null ? (
@@ -16,6 +18,6 @@ const TicTacToe = () => {
       )}
     </>
   );
-}
+};
 
-export default TicTacToe
+export default TicTacToe;

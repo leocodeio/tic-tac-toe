@@ -10,7 +10,7 @@ const Play = () => {
   const [name, setName] = useState("");
 
   const { onlineUsers } = useSocketContext();
-  console.log(onlineUsers);
+  // console.log(onlineUsers);
   const navigate = useNavigate();
 
   const handleStart = async (e) => {

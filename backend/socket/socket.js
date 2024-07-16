@@ -25,14 +25,15 @@ io.on("connection", (socket) => {
   if (userId !== "undefined") {
     userSocketMap[userId] = socket.id;
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    console.log(userSocketMap)
   }
-  console.log(userSocketMap)
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
     if (userId !== "undefined") {
       delete userSocketMap[userId];
       io.emit("getOnlineUsers", Object.keys(userSocketMap));
     }
+    console.log(userSocketMap)
   });
 
   socket.on("logout", () => {
