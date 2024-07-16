@@ -16,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
   useEffect(() => {
     if (account) {
       const newSocket = io("http://localhost:5001", {
-        query: { userId: account._id },
+        query: { userId: account.user._id },
       });
 
       setSocket(newSocket);
