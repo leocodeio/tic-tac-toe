@@ -13,7 +13,7 @@ const TicTacToe = () => {
       {account === null ? (
         <div>Please log in to play Tic Tac Toe.</div>
       ) : (
-        <div>Welcome {account.nickName}, you are now in the game!</div>
+        <div>Welcome {account.user.nickName}, you are now in the game!</div>
       )}
     </>
   );
