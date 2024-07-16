@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import { useAccountContext } from "../context/AccountContext";
+import axios from 'axios';
 
 const Play = () => {
   const { setAccount } = useAccountContext();
   const [name, setName] = useState("");
-  const handleStart = (e) => {
+  const handleStart = async (e) => {
     e.preventDefault();
-    setAccount('');
-    setName('');
+    try {
+      const user = await axios.post("http://localhost:5001/user/create", {
+        nickName:name
+      });
+      setAccount(user.data);
+      console.log(user.data);
+    } catch (err) {
+      console.log("error while creating player",err)
+    }
+    setName("");
   };
   return (
     <div>
