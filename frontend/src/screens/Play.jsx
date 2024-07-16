@@ -5,8 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Play = () => {
-  const {account, setAccount } = useAccountContext();
-  const { socket,setOnlineUsers } = useSocketContext();
+  const { account, setAccount } = useAccountContext();
+  const { socket, setOnlineUsers } = useSocketContext();
   const [name, setName] = useState("");
 
   const { onlineUsers } = useSocketContext();
@@ -19,7 +19,7 @@ const Play = () => {
       const user = await axios.post("http://localhost:5001/user/create", {
         nickName: name,
       });
-      setAccount(user.data);
+      setAccount(user.data.user);
       // console.log(user.data);
       setOnlineUsers((prevUsers) => [...prevUsers, user.data.user._id]);
       navigate("/ttt");
@@ -32,7 +32,7 @@ const Play = () => {
   useEffect(() => {
     if (account) {
       setAccount(null);
-      setOnlineUsers(onlineUsers.filter(id => id !== account.user._id));
+      setOnlineUsers(onlineUsers.filter((id) => id !== account._id));
       socket.emit("logout");
     }
   });
