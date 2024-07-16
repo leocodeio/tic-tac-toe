@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAccountContext } from "../context/AccountContext";
 import { useSocketContext } from "../context/SocketContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Play = () => {
-  const { setAccount } = useAccountContext();
-  setAccount(null);
-  const { setOnlineUsers } = useSocketContext();
+  const {account, setAccount } = useAccountContext();
+  const { socket,setOnlineUsers } = useSocketContext();
   const [name, setName] = useState("");
-  
-  // const { onlineUsers } = useSocketContext();
-  // console.log(onlineUsers);
+
+  const { onlineUsers } = useSocketContext();
+  console.log(onlineUsers);
   const navigate = useNavigate();
 
   const handleStart = async (e) => {
@@ -29,6 +28,14 @@ const Play = () => {
     }
     setName("");
   };
+
+  useEffect(() => {
+    if (account) {
+      setAccount(null);
+      setOnlineUsers(onlineUsers.filter(id => id !== account.user._id));
+      socket.emit("logout");
+    }
+  });
   return (
     <form onSubmit={handleStart}>
       play area!!!

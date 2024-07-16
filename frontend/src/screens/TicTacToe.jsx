@@ -5,9 +5,8 @@ import { useAccountContext } from '../context/AccountContext';
 const TicTacToe = () => {
   const { onlineUsers } = useSocketContext();
   const { account } = useAccountContext();
-  
-  console.log(onlineUsers);
 
+  console.log(onlineUsers)
   return (
     <>
       {account === null ? (
