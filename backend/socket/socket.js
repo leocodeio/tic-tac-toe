@@ -27,16 +27,20 @@ io.on("connection", (socket) => {
   //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
   //   console.log(userSocketMap)
   // }
-  gameManager.addUser(socket);
+  // gameManager.addUser(socket);
   // console.log(gameManager.users)
-  // const userId = socket.handshake.query.userId;
+  const userId = socket.handshake.query.userId;
   // console.log(userId);
-  // if (userId !== "undefined") {
-  //   userSocketMap[userId] = socket.id;
-  //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
-  //   // console.log(userSocketMap)
-  //   gameManager.addUser(socket);
-  // }
+  if (userId !== "undefined") {
+    userSocketMap[userId] = socket.id;
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    // console.log(userSocketMap)
+    if (!gameManager.users.includes(socket)) {
+      gameManager.addUser(socket);
+    }
+
+    // console.log(gameManager.users.length)
+  }
 
   // socket.on("message",(data)=>{
   //   console.log("message is",data)
@@ -44,10 +48,10 @@ io.on("connection", (socket) => {
   // })
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
-    // if (userId !== "undefined") {
-    //   delete userSocketMap[userId];
-    //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
-    // }
+    if (userId !== "undefined") {
+      delete userSocketMap[userId];
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
     gameManager.removeUser(socket);
     // console.log(userSocketMap)
   });
