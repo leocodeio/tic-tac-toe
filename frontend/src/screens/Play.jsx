@@ -3,6 +3,7 @@ import { useAccountContext } from "../context/AccountContext";
 import { useSocketContext } from "../context/SocketContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Play.css";
 
 const Play = () => {
   const { account, setAccount } = useAccountContext();
@@ -37,8 +38,8 @@ const Play = () => {
     }
   });
   return (
-    <form onSubmit={handleStart}>
-      play area!!!
+    <form className="play-page" onSubmit={handleStart}>
+      Play Area!!!
       <input
         value={name}
         onChange={(e) => {
@@ -48,7 +49,7 @@ const Play = () => {
         type="text"
         required
       />
-      <button type="submit">start game</button>
+      <button className="play-button" type="submit">start game</button>
     </form>
   );
 };

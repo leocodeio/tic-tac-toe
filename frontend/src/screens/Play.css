@@ -1,0 +1,23 @@
+*{
+  font-family: cursive;
+}
+
+.play-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  background-color: #000000;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.play-button{
+  background-color: #000000;
+  text-decoration: none;
+  color: #000000;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
