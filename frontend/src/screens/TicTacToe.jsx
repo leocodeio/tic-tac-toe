@@ -5,13 +5,12 @@ import { INIT_GAME, MOVE, GAME_DRAW, GAME_OVER } from "../context/messges";
 
 const TicTacToe = () => {
   const { socket } = useSocketContext();
-  const { account } = useAccountContext();
+  const { account,setAccount } = useAccountContext();
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   const [currentTurn, setCurrentTurn] = useState("X");
   const [symbol, setSymbol] = useState("loading");
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
-  let index=-1;
 
   useEffect(() => {
     if (socket) {
@@ -23,11 +22,13 @@ const TicTacToe = () => {
         }
         if (message.type === MOVE) {
           console.log(message.payload.symbol)
-          setCurrentTurn(message.payload.symbol=== "X" ? "O" : "X");
-          index = message.payload.move;
-          const newBoard = [...board];
-          newBoard[index] = message.payload.symbol;
-          setBoard(newBoard);
+          setCurrentTurn(message.payload.symbol === "X"? "O" : "X");
+          const index = message.payload.move;
+          setBoard((previousBoard) => {
+            const newBoard = [...previousBoard];
+            newBoard[index] = message.payload.symbol;
+            return newBoard;
+          });
         }
         if (message.type === GAME_OVER) {
           setGameOver(true);
@@ -36,9 +37,11 @@ const TicTacToe = () => {
         if (message.type === GAME_DRAW) {
           setGameOver(true);
           setWinner("draw");
+          setAccount(null);
         }
       });
     }
+     // eslint-disable-next-line 
   }, [socket]);
 
   const handleMove = (index) => {
