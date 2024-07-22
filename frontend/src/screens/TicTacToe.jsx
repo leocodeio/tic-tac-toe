@@ -11,6 +11,7 @@ const TicTacToe = () => {
   const [symbol, setSymbol] = useState("loading");
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
+  let index=-1;
 
   useEffect(() => {
     if (socket) {
@@ -23,6 +24,10 @@ const TicTacToe = () => {
         if (message.type === MOVE) {
           console.log(message.payload.symbol)
           setCurrentTurn(message.payload.symbol=== "X" ? "O" : "X");
+          index = message.payload.move;
+          const newBoard = [...board];
+          newBoard[index] = message.payload.symbol;
+          setBoard(newBoard);
         }
         if (message.type === GAME_OVER) {
           setGameOver(true);
