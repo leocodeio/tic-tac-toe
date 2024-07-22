@@ -1,12 +1,12 @@
-import Board from './Board.js';
-import { io } from '../socket/socket.js';
-import { INIT_GAME, GAME_DRAW, GAME_OVER, MOVE } from './messages.js';
+import Board from "./Board.js";
+import { io } from "../socket/socket.js";
+import { INIT_GAME, GAME_DRAW, GAME_OVER, MOVE } from "./messages.js";
 
 export class Game {
   constructor(player1, player2) {
     this.player1 = player1;
     this.player2 = player2;
-    this.board = new Board(['', '', '', '', '', '', '', '', '']);
+    this.board = new Board(["", "", "", "", "", "", "", "", ""]);
     this.startTime = new Date();
     this.currentPlayer = player1; // Initialize the first player
 
@@ -56,7 +56,8 @@ export class Game {
     }
 
     // Switch to the other player's turn
-    this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
+    this.currentPlayer =
+      this.currentPlayer === this.player1 ? this.player2 : this.player1;
 
     // Check for game over
     if (this.board.isGameDraw()) {
@@ -121,9 +122,9 @@ export class Game {
       this.player1.send(moveMessage);
       this.player2.send(moveMessage);
     }
-    console.log(this.board.grid.slice(0,3))//first 3 ele
-    console.log(this.board.grid.slice(3,6))//second 3 ele
-    console.log(this.board.grid.slice(6,9))//third 3 ele
+    console.log(this.board.grid.slice(0, 3)); //first 3 ele
+    console.log(this.board.grid.slice(3, 6)); //second 3 ele
+    console.log(this.board.grid.slice(6, 9)); //third 3 ele
   }
 
   // Function to send a message to a specific player

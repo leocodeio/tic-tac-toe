@@ -21,11 +21,11 @@ class GameManager {
   addHandler(socket) {
     // console.log("handler added ");
     socket.on("message", (data) => {
-      console.log("message received");
+      // console.log("message received");
       const message = JSON.parse(data.toString());
-      console.log(message);
+      // console.log(message);
       if (message.type === INIT_GAME) {
-        console.log("initgame");
+        // console.log("initgame");
         if (this.pendingUser) {
           const game = new Game(this.pendingUser, socket);
           this.games.push(game);
@@ -33,7 +33,6 @@ class GameManager {
         } else {
           this.pendingUser = socket;
         }
-        // console.log(this.games);
       }
 
       if (message.type === MOVE) {
