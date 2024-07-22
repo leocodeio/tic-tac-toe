@@ -7,17 +7,22 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: white;
-  background-color: #000000;
+  color: rgb(0, 0, 0);
+  background-color: #dcffb7;
   flex-direction: column;
   gap: 20px;
+}
+
+.play-input{
+  border-radius: 7.5px;
+  padding: 15px;
 }
 
 .play-button{
   background-color: #000000;
   text-decoration: none;
   color: #000000;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
   background-color: #ffffff;
 }

@@ -5,7 +5,7 @@ import "./Start.css";
 const Start = () => {
   return (
     <div className="start-page">
-      Welcome To Tic-Tac-Toe!
+      <h1 style={{"width": "60%","text-align": "center"}}>Welcome To Tic-Tac-Toe!</h1>
       <Link className="start-button" to="/play"><b>PLAY</b></Link>
     </div>
   );

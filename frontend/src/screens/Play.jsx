@@ -39,8 +39,10 @@ const Play = () => {
   });
   return (
     <form className="play-page" onSubmit={handleStart}>
-      Play Area!!!
+      <h1 style={{"width": "60%","text-align": "center"}}>Play Area!!!</h1>
+      
       <input
+      className="play-input"
         value={name}
         onChange={(e) => {
           setName(e.target.value);

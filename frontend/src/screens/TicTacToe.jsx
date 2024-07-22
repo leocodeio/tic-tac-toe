@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSocketContext } from "../context/SocketContext";
 import { useAccountContext } from "../context/AccountContext";
 import { INIT_GAME, MOVE, GAME_DRAW, GAME_OVER } from "../context/messges";
+import "./TicTacToe.css";
 
 const TicTacToe = () => {
   const { socket } = useSocketContext();
-  const { account,setAccount } = useAccountContext();
+  const { account, setAccount } = useAccountContext();
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   const [currentTurn, setCurrentTurn] = useState("X");
   const [symbol, setSymbol] = useState("loading");
@@ -21,8 +22,8 @@ const TicTacToe = () => {
           setSymbol(message.payload.symbol);
         }
         if (message.type === MOVE) {
-          console.log(message.payload.symbol)
-          setCurrentTurn(message.payload.symbol === "X"? "O" : "X");
+          console.log(message.payload.symbol);
+          setCurrentTurn(message.payload.symbol === "X" ? "O" : "X");
           const index = message.payload.move;
           setBoard((previousBoard) => {
             const newBoard = [...previousBoard];
@@ -37,11 +38,10 @@ const TicTacToe = () => {
         if (message.type === GAME_DRAW) {
           setGameOver(true);
           setWinner("draw");
-          setAccount(null);
         }
       });
     }
-     // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, [socket]);
 
   const handleMove = (index) => {
@@ -51,54 +51,41 @@ const TicTacToe = () => {
   };
 
   return (
-    <div>
-      {account === null ? (
-        <div>Please log in to play Tic Tac Toe.</div>
-      ) : (
-        <div>
-          <div>
-            Welcome {account.nickName}, your symbol is {symbol}
+      <div className="tic-tac-toe-container">
+        {account === null ? (
+          <div className="login-message">
+            Please log in to play Tic Tac Toe.
           </div>
-          <div>{currentTurn}'s turn</div>
-          {gameOver ? (
-            <div>
-              {winner === "draw" ? (
-                <div>It's a draw!</div>
-              ) : (
-                <div>Game over! Winner is {winner}</div>
-              )}
+        ) : (
+          <div className="game-container">
+            <div className="welcome-message">
+              Welcome {account.nickName}, your symbol is {symbol}
             </div>
-          ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 100px)",
-                gap: "10px",
-              }}
-            >
-              {board.map((cell, index) => (
-                <div
-                  key={index}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    border: "1px solid black",
-                    fontSize: "24px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleMove(index)}
-                >
-                  {cell}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            <div className="turn-message">{currentTurn}'s turn</div>
+            {gameOver ? (
+              <div className="game-over-message">
+                {winner === "draw" ? (
+                  <div>It's a draw!</div>
+                ) : (
+                  <div>Game over! Winner is {winner}</div>
+                )}
+              </div>
+            ) : (
+              <div className="board-container">
+                {board.map((cell, index) => (
+                  <div
+                    key={index}
+                    className="cell"
+                    onClick={() => handleMove(index)}
+                  >
+                    {cell}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
   );
 };
 
