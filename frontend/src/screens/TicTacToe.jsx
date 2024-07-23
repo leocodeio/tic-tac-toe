@@ -34,10 +34,16 @@ const TicTacToe = () => {
         if (message.type === GAME_OVER) {
           setGameOver(true);
           setWinner(message.payload.winner);
+          setTimeout(() => {
+            setAccount(null);
+          }, 3000);
         }
         if (message.type === GAME_DRAW) {
           setGameOver(true);
           setWinner("draw");
+          setTimeout(() => {
+            setAccount(null);
+          }, 3000);
         }
       });
     }
@@ -51,41 +57,39 @@ const TicTacToe = () => {
   };
 
   return (
-      <div className="tic-tac-toe-container">
-        {account === null ? (
-          <div className="login-message">
-            Please log in to play Tic Tac Toe.
+    <div className="tic-tac-toe-container">
+      {account === null ? (
+        <div className="login-message">ggs Please log in to start playing Tic Tac Toe.</div>
+      ) : (
+        <div className="game-container">
+          <div className="welcome-message">
+            Welcome {account.nickName}, your symbol is {symbol}
           </div>
-        ) : (
-          <div className="game-container">
-            <div className="welcome-message">
-              Welcome {account.nickName}, your symbol is {symbol}
+          <div className="turn-message">{currentTurn}'s turn</div>
+          {gameOver ? (
+            <div className="game-over-message">
+              {winner === "draw" ? (
+                <div>It's a draw!</div>
+              ) : (
+                <div>Game over! Winner is {winner}</div>
+              )}
             </div>
-            <div className="turn-message">{currentTurn}'s turn</div>
-            {gameOver ? (
-              <div className="game-over-message">
-                {winner === "draw" ? (
-                  <div>It's a draw!</div>
-                ) : (
-                  <div>Game over! Winner is {winner}</div>
-                )}
-              </div>
-            ) : (
-              <div className="board-container">
-                {board.map((cell, index) => (
-                  <div
-                    key={index}
-                    className="cell"
-                    onClick={() => handleMove(index)}
-                  >
-                    {cell}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="board-container">
+              {board.map((cell, index) => (
+                <div
+                  key={index}
+                  className="cell"
+                  onClick={() => handleMove(index)}
+                >
+                  {cell}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
