@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const connetDB = async () => {
   try {
-    const con = await mongoose.connect("mongodb://localhost:27017");
+    const con = await mongoose.connect("mongodb://localhost:27017/tic-tac-toe");
     if (con) {
       console.log("db connection sucess");
     }else{

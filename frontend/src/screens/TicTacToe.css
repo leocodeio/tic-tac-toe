@@ -1,0 +1,86 @@
+
+.tic-tac-toe-container {
+  margin: 20px auto;
+  max-width: 300px;
+  padding: 15px;
+  background-color: #dcffb7;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Medium screen size (e.g. tablet) */
+@media (max-width: 768px) {
+  .tic-tac-toe-container {
+  margin: 100px auto;
+  }
+}
+
+/* Small screen size (e.g. mobile) */
+@media (max-width: 480px) {
+  .tic-tac-toe-container {
+  margin: 200px auto;
+  padding: 10px;
+  }
+}
+.login-message {
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+  padding: 20px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.welcome-message {
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.turn-message {
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.game-over-message {
+  font-size: 24px;
+  font-weight: bold;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+}
+
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(3, 75px);
+  grid-template-rows: repeat(3, 75px);
+  gap: 10px;
+}
+
+.cell {
+  color: rgb(0, 0, 0);
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  background: #fcdc94;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: #ffa38f;
+}
+
+.cell:active {
+  background-color: #ccc;
+}
