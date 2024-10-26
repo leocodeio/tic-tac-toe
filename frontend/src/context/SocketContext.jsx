@@ -13,9 +13,10 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
+
   useEffect(() => {
     if (account) {
-      const newSocket = io("http://localhost:5001", {
+      const newSocket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
         query: { userId: account._id },
       });
 
