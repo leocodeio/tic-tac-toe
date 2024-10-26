@@ -17,9 +17,13 @@ const Play = () => {
   const handleStart = async (e) => {
     e.preventDefault();
     try {
-      const user = await axios.post("http://localhost:5001/user/create", {
-        nickName: name,
-      });
+      console.log(process.env.REACT_APP_BACKEND_URL); 
+      const user = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/user/create`,
+        {
+          nickName: name,
+        }
+      );
       setAccount(user.data.user);
       // console.log(user.data);
       setOnlineUsers((prevUsers) => [...prevUsers, user.data.user._id]);
@@ -39,10 +43,10 @@ const Play = () => {
   });
   return (
     <form className="play-page" onSubmit={handleStart}>
-      <h1 style={{"width": "60%","text-align": "center"}}>Play Area!!!</h1>
-      
+      <h1 style={{ width: "60%", "text-align": "center" }}>Play Area!!!</h1>
+
       <input
-      className="play-input"
+        className="play-input"
         value={name}
         onChange={(e) => {
           setName(e.target.value);
@@ -51,7 +55,9 @@ const Play = () => {
         type="text"
         required
       />
-      <button className="play-button" type="submit">start game</button>
+      <button className="play-button" type="submit">
+        start game
+      </button>
     </form>
   );
 };
