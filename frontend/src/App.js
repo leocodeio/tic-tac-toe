@@ -16,7 +16,7 @@ function App() {
               <Route path="/play" element={<Play />} />
               <Route path="/ttt" element={<TicTacToe />} />
             </Routes>
-          </SocketContextProvider>
+          </SocketContextProvider> 
         </AccountContextProvider>
       </BrowserRouter>
     </div>
