@@ -1,7 +1,8 @@
-
 ## frontend
 
 ```
+cd frontend
+cp .env.example .env
 npm i -g pnpm
 pnpm install
 pnpm start
@@ -10,6 +11,8 @@ pnpm start
 ## backend
 
 ```
+cd backend
+cp .env.example .env
 npm i -g pnpm
 pnpm install
 pnpm start
@@ -36,3 +39,9 @@ docker run -p 3001:3001 be-image
 ```
 
 you can access the backend at http://localhost:3001
+
+#### All Services
+
+```
+docker compose up -d
+```
