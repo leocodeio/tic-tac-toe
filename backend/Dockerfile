@@ -9,7 +9,7 @@ WORKDIR /backend_app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm i -g pnpm && pnpm install
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3001
 
 # Start the backend application
-CMD ["pnpm", "run", "start"]
+CMD npm start

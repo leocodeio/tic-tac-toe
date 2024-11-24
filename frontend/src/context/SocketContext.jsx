@@ -18,6 +18,11 @@ export const SocketContextProvider = ({ children }) => {
     if (account) {
       const newSocket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
         query: { userId: account._id },
+        transports: ['websocket', 'polling'],
+        withCredentials: true,
+        forceNew: true,
+        reconnectionAttempts: 5,
+        timeout: 10000
       });
 
       setSocket(newSocket);
