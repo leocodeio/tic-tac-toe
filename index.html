@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic Tac Toe • Beta Landing</title>
+  <meta name="description" content="Minimalistic Tic Tac Toe – Beta landing page for the repository." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1115;
+      --bg-accent: #181b21;
+      --border: #2a2f37;
+      --fg: #e6e8eb;
+      --fg-dim: #99a1b0;
+      --primary: #4f8bff;
+      --primary-glow: 174 196 255;
+      --win: #3ac27c;
+      --lose: #ff5d5d;
+      --focus: #ffe077;
+      color-scheme: dark;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 30% 20%, #18202a, #0f1115 70%);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      padding: 1.1rem clamp(1rem,2.5vw,2rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand { font-weight: 600; letter-spacing: .5px; display: flex; align-items: center; gap:.55rem; }
+    .beta-badge { font-size: .65rem; font-weight:600; padding:.25rem .45rem; border:1px solid var(--border); border-radius: 4px; background: linear-gradient(145deg,#1f252d,#15181d); letter-spacing: .5px; color: var(--focus); }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    main { flex: 1; display: grid; place-items: center; padding: clamp(1rem,3vw,3rem); }
+
+    .panel {
+      width: min(100%, 880px);
+      display: grid;
+      gap: 2.5rem;
+    }
+    @media (min-width: 820px) { .panel { grid-template-columns: 440fr 360fr; align-items: start; } }
+
+    .intro h1 { margin: 0 0 .85rem; font-size: clamp(1.9rem,4vw,3rem); line-height: 1.05; background: linear-gradient(120deg,#fff,#b9d4ff 60%,#6ea8ff); -webkit-background-clip: text; color: transparent; }
+    .intro p { margin: 0 0 1.25rem; max-width: 52ch; line-height: 1.55; color: var(--fg-dim); }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .btn { --btn-bg: var(--primary); --btn-fg: #fff; font: 500 0.9rem/1 'Inter'; padding:.75rem 1.05rem; border-radius: 6px; border:1px solid rgba(var(--primary-glow)/55%); background: linear-gradient(145deg,var(--btn-bg),#2e5ea8); color: var(--btn-fg); cursor: pointer; position: relative; transition: background .25s, transform .15s; display: inline-flex; align-items:center; gap: .4rem; }
+    .btn:active { transform: translateY(2px); }
+    .btn.secondary { --btn-bg: #22272f; --btn-fg: var(--fg-dim); border:1px solid var(--border); background: linear-gradient(145deg,#222930,#181c22); }
+    .btn.secondary:hover { color: var(--fg); }
+    .btn:hover { filter: brightness(1.08); }
+
+    .game-wrap { background: rgba(24,29,36,.55); backdrop-filter: blur(8px); border:1px solid #1e242b; border-radius: 14px; padding: 1.5rem 1.5rem 1.9rem; box-shadow: 0 10px 24px -12px #000c; position: relative; }
+    .game-header { display:flex; align-items:center; justify-content: space-between; margin-bottom: 1rem; font-size: .8rem; letter-spacing:.5px; text-transform: uppercase; color: var(--fg-dim); }
+    .status { font-size: .95rem; font-weight: 600; color: var(--fg); letter-spacing: .5px; }
+
+    .board { --size: 300px; width: var(--size); height: var(--size); display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr); gap: 6px; margin: .35rem auto 1.25rem; }
+    .cell { background: linear-gradient(145deg,#222a33,#1b2127); border:1px solid #2c343d; border-radius: 10px; font-size: 2.3rem; font-weight: 600; display:flex; align-items:center; justify-content:center; cursor:pointer; color: var(--primary); user-select: none; position: relative; transition: background .25s, transform .25s, color .35s; }
+    .cell[data-player="O"] { color: #ffb347; }
+    .cell:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .cell:hover { background: #27313b; }
+    .cell.win { background: #1e3a29; color: var(--win) !important; box-shadow: 0 0 0 1px #2c5742, 0 4px 14px -6px #0f522e; }
+    .cell.draw { color: var(--fg-dim); }
+    .game-footer { display:flex; align-items:center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+    .small { font-size:.7rem; letter-spacing:.5px; text-transform:uppercase; color: var(--fg-dim); }
+
+    footer { text-align:center; padding: 1.5rem 1rem 2.5rem; font-size: .75rem; color: #5d6774; }
+    footer a { color: var(--fg-dim); }
+    footer a:hover { color: var(--fg); }
+
+    .pulse { position:absolute; inset:0; border-radius: inherit; pointer-events:none; opacity: .55; mix-blend-mode: overlay; background: radial-gradient(circle at 30% 30%, rgba(var(--primary-glow)/18%), transparent 70%); animation: float 8s linear infinite; }
+    @keyframes float { 0% { transform: translateY(0);} 50% { transform: translateY(-14px);} 100% { transform: translateY(0);} }
+
+    @media (max-width: 560px) { .board { --size: 260px; } .intro h1 { font-size: 2.2rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Tic Tac Toe <span class="beta-badge">BETA</span></div>
+    <nav class="cta-row">
+      <a class="btn secondary" href="https://github.com/leocodeio/tic-tac-toe" target="_blank" rel="noopener">Repo</a>
+      <button class="btn" id="resetBtn" type="button">↺ Reset</button>
+    </nav>
+  </header>
+  <main>
+    <div class="panel">
+      <section class="intro">
+        <h1>Minimalistic Tic&nbsp;Tac&nbsp;Toe</h1>
+        <p>A polished, self‑contained sample board to quickly demo the logic while the full realtime / socket powered implementation evolves. This landing page is intentionally lightweight so you can deploy or preview the repo instantly.</p>
+        <div class="cta-row">
+          <!-- <a class="btn" href="frontend/public/index.html" target="_blank" rel="noopener">React App Entry</a> -->
+          <a class="btn secondary" href="https://github.com/leocodeio/tic-tac-toe" target="_blank" rel="noopener">View Source →</a>
+        </div>
+      </section>
+      <section class="game-wrap" aria-label="Sample Tic Tac Toe Game">
+        <div class="pulse"></div>
+        <div class="game-header">
+          <span class="small">Sample Game</span>
+          <span class="status" id="status">Turn: <strong>X</strong></span>
+        </div>
+        <div class="board" id="board" role="grid" aria-label="Tic Tac Toe Board"></div>
+        <div class="game-footer">
+          <div class="small" id="helper">First to align 3 wins.</div>
+          <button class="btn secondary" id="newGameBtn" type="button">New Game</button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <p>Beta landing page for <a href="https://github.com/leocodeio/tic-tac-toe" target="_blank" rel="noopener">leocodeio/tic-tac-toe</a>. Built as a single static file for quick preview.</p>
+  </footer>
+
+  <script>
+    const boardEl = document.getElementById('board');
+    const statusEl = document.getElementById('status');
+    const helperEl = document.getElementById('helper');
+    const resetBtn = document.getElementById('resetBtn');
+    const newGameBtn = document.getElementById('newGameBtn');
+
+    let boardState, current, active, moves;
+    const wins = [
+      [0,1,2],[3,4,5],[6,7,8], // rows
+      [0,3,6],[1,4,7],[2,5,8], // cols
+      [0,4,8],[2,4,6]          // diagonals
+    ];
+
+    function init() {
+      boardState = Array(9).fill(null);
+      current = 'X';
+      active = true;
+      moves = 0;
+      boardEl.innerHTML = '';
+      for (let i=0;i<9;i++) {
+        const c = document.createElement('button');
+        c.className = 'cell';
+        c.type = 'button';
+        c.setAttribute('data-index', i);
+        c.setAttribute('aria-label', 'Cell '+(i+1));
+        c.addEventListener('click', handleMove, { once: true });
+        boardEl.appendChild(c);
+      }
+      updateStatus();
+      helperEl.textContent = 'First to align 3 wins.';
+    }
+
+    function handleMove(e) {
+      if (!active) return;
+      const idx = +e.currentTarget.getAttribute('data-index');
+      boardState[idx] = current;
+      e.currentTarget.textContent = current;
+      e.currentTarget.dataset.player = current;
+      moves++;
+      const winner = checkWinner();
+      if (winner) {
+        active = false;
+        statusEl.innerHTML = 'Winner: <strong>'+winner+'</strong>';
+        helperEl.textContent = 'Press New Game to play again.';
+        return;
+      }
+      if (moves === 9) {
+        active = false;
+        statusEl.innerHTML = 'Draw';
+        boardEl.querySelectorAll('.cell:not(.win)').forEach(c=>c.classList.add('draw'));
+        helperEl.textContent = 'No winner. Start a new game?';
+        return;
+      }
+      current = current === 'X' ? 'O' : 'X';
+      updateStatus();
+    }
+
+    function checkWinner() {
+      for (const [a,b,c] of wins) {
+        if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+          const cells = boardEl.querySelectorAll('.cell');
+            [a,b,c].forEach(i => cells[i].classList.add('win'));
+          return boardState[a];
+        }
+      }
+      return null;
+    }
+
+    function updateStatus() {
+      statusEl.innerHTML = 'Turn: <strong>'+current+'</strong>';
+    }
+
+    resetBtn.addEventListener('click', init);
+    newGameBtn.addEventListener('click', init);
+
+    init();
+  </script>
+</body>
+</html>
